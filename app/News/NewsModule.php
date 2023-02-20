@@ -1,32 +1,21 @@
 <?php
 namespace App\News;
 
+use App\News\Actions\NewsAction;
+use Framework\Module;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface as Request;
 
-class NewsModule
+class NewsModule extends Module
 {
-	private $renderer;
-	public function __construct(Router $router, RendererInterface $renderer)
-	{
-		$this->renderer = $renderer;
-		$this->renderer->addPath('news', __DIR__ . '/views');
+	
+	const DEFINITIONS = __DIR__ . '/config.php';
 
-		$router->get('/news', [$this, 'index'], 'news.index');
-		$router->get('/news/{slug}', [$this, 'view'], 'news.view');
-	}
-
-	public function index(Request $request): string
+	public function __construct(string $prefix, Router $router, RendererInterface $renderer)
 	{
-		return $this->renderer->render('@news/index');
-	}
+        $renderer->addPath('news', __DIR__ . '/views');
 
-	public function view(Request $request): string
-	{
-		return $this->renderer->render('@news/view', [
-			'slug' => $request->getAttribute('slug')	
-		]);
+        $router->get($prefix, NewsAction::class, 'news.index');
+        $router->get($prefix . '/news/{slug}', NewsAction::class, 'news.view');
 	}
 }

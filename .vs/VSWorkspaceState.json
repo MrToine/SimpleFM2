@@ -1,9 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\src",
-    "\\src\\Framework"
+    "\\app",
+    "\\app\\News",
+    "\\config",
+    "\\public"
   ],
-  "SelectedNode": "\\src\\Framework\\Renderer.php",
+  "SelectedNode": "\\public\\index.php",
   "PreviewInSolutionExplorer": false
 }

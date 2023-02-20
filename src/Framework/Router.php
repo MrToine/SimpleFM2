@@ -25,11 +25,11 @@ class Router
     /**
      * [get description]
      * @param  string   $path     [description]
-     * @param  callable $callable [description]
+     * @param  string|callable $callable [description]
      * @param  string   $name     [description]
      * @return [type]             [description]
      */
-    public function get(string $path, callable $callable, string $name)
+    public function get(string $path, $callable, string $name)
     {
         $this->router->addRoute(new MezzioRoute($path, $callable, ['GET'], $name));
     }
