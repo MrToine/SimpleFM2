@@ -1,13 +1,12 @@
 <?php
-use Framework\Renderer;
 
 require '../vendor/autoload.php';
 
 /**
  * @var mixed $renderer
  */
-$renderer = new Renderer();
-$renderer->addPath(dirname(__DIR__) . '/app/views');
+$renderer = new \Framework\Renderer\TwigRenderer(dirname(__DIR__) . '/app/views');
+
 
 /**
  * @var mixed $app
