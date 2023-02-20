@@ -2,7 +2,9 @@
     "name": "univers-toine/framework",
     "autoload": {
         "psr-4": {
-            "Framework\\": "src/Framework"
+            "Framework\\": "src/Framework",
+            "App\\": "app",
+            "Tests\\": "tests"
         }
     },
     "authors": [
@@ -18,6 +20,7 @@
     "require": {
         "guzzlehttp/psr7": "2.4",
         "psr/http-message": "1.0",
-        "http-interop/response-sender": "^1.0"
+        "http-interop/response-sender": "^1.0",
+        "mezzio/mezzio-fastroute": "^0.3.0"
     }
 }
