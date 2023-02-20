@@ -1,25 +1,32 @@
 <?php
 namespace App\News;
 
+use Framework\Renderer;
 use Framework\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 class NewsModule
 {
-	public function __construct(Router $router)
+	private $renderer;
+	public function __construct(Router $router, Renderer $renderer)
 	{
+		$this->renderer = $renderer;
+		$this->renderer->addPath('news', __DIR__ . '/views');
+
 		$router->get('/news', [$this, 'index'], 'news.index');
 		$router->get('/news/{slug}', [$this, 'view'], 'news.view');
 	}
 
 	public function index(Request $request): string
 	{
-		return '<h1>Bienvenue sur les actus</h1>';
+		return $this->renderer->render('@news/index');
 	}
-	
+
 	public function view(Request $request): string
 	{
-		return '<h1>Bienvenue sur la news ' . $request->getAttribute('slug') . '</h1>';
+		return $this->renderer->render('@news/view', [
+			'slug' => $request->getAttribute('slug')	
+		]);
 	}
 }
