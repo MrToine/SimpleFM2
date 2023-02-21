@@ -43,9 +43,9 @@ class NewsModule extends Module
 	 */
 	public function __construct(string $prefix, Router $router, RendererInterface $renderer)
 	{
-        $renderer->addPath('news', __DIR__ . '/views');
+        $renderer->addPath('news', __DIR__ . '/Views');
 
         $router->get($prefix, NewsAction::class, 'news.index');
-        $router->get($prefix . '/news/{slug}', NewsAction::class, 'news.view');
+        $router->get($prefix . '/news/{slug:[a-z\0-9]+}-{id:[0-9]+}', NewsAction::class, 'news.view');
 	}
 }

@@ -3,9 +3,8 @@
 {% block body %}
     <h1>Actus</h1>
     <ul>
-        <li><a href="{{ path('news.view', {slug: 'test-de-tripaille'}) }}">content</a></li>
-        <li>article 3</li>
-        <li>article 4</li>
-        <li>article 5</li>
+        {% for n in news %}
+            <li><a href="{{ path('news.view', {slug: n.slug, id: n.id}) }}">{{ n.name }}</a></li>
+        {% endfor %}
     </ul>
 {% endblock %}

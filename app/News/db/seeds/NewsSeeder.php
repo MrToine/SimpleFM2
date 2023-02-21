@@ -18,15 +18,14 @@ class NewsSeeder extends AbstractSeed
         $data = [];
         $faker = \Faker\Factory::create('fr_FR');
 
-        for ($i = 0; $i < 10; $i++)
-        {
-            $date = $faker->unixTime('now');
-        	$data[] = [
-                'name' => $faker->word(),
-                'slug' => $faker->word(),
-                'content' => $faker->text(),
-                'created_date' => date('Y-m-d H:i:s', $date),
-                'updated_date' =>date('Y-m-d H:i:s', $date)
+        for ($i = 0; $i < 100; ++$i) {
+            //$date = $faker->unixTime('now');
+            $data[] = [
+                'name' => 'News ' . $i,
+                'slug' => 'news-' . $i,
+                'content' => 'lorem ipsum blablabla',
+                'created_date' => date('Y-m-d H:i:s', '155477852'),
+                'updated_date' => date('Y-m-d H:i:s', '155477852')
             ];
         }
 

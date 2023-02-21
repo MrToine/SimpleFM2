@@ -2,7 +2,10 @@
 
 namespace App\News\Actions;
 
+use App\News\Models\NewsModel;
+use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
+use Framework\Router;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
@@ -11,23 +14,31 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class NewsAction
 {
 	/**
-	 * 
+	 *
 	 * @var mixed
 	 */
 	private $renderer;
 
-	public function __construct(RendererInterface $renderer)
+	private $table;
+
+	private $router;
+
+	use RouterAwareAction;
+
+	public function __construct(RendererInterface $renderer, Router $router, NewsModel $newsModel)
     {
+		$this->table = $newsModel;
         $this->renderer = $renderer;
+		$this->router = $router;
     }
 
-	public function __invoke(Request $request): string
+	public function __invoke(Request $request)
     {
 		$slug = $request->getAttribute('slug');
-        
+
 		if($slug)
         {
-			return $this->view($slug);  
+			return $this->view($request);
         }
 		else
         {
@@ -37,13 +48,32 @@ class NewsAction
 
     public function index(): string
 	{
-		return $this->renderer->render('@news/index');
+		$news = $this->table->findPaginated();
+
+		return $this->renderer->render('@news/index', compact('news'));
 	}
 
-	public function view(string $slug): string
+	/**
+	 * Affiche une news
+	 * @param Request $request
+	 * @return ResponseInterface|String
+	 */
+	public function view(Request $request)
 	{
+		$slug = $request->getAttribute('slug');
+
+		$news = $this->table->find($request->getAttribute('id'));
+
+		if($news->slug !== $slug)
+        {
+			return $this->redirect('news.view', [
+					'slug' => $news->slug,
+					'id' => $news->id
+				]);
+        }
+
 		return $this->renderer->render('@news/view', [
-			'slug' => $slug
+			'news' => $news
 		]);
 	}
 }

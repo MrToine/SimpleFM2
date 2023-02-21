@@ -19,11 +19,9 @@ final class CreateNewsTable extends AbstractMigration
     public function change(): void
     {
         $this->table('news')
-            ->addColumn('name', 'string')
-            ->addColumn('slug', 'string')
-            ->addColumn('content', 'text', ['limit' => \Phinx\Db\Adapter\MysqlAdapter::TEXT_LONG])
-            ->addColumn('created_date', 'datetime')
-            ->addColumn('updated_date', 'datetime')
+            ->addColumn('update_date', 'datetime')
+
+            //->removeColumn('updated_date')
             ->create();
     }
 }
