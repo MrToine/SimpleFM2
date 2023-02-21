@@ -1,7 +1,7 @@
 <?php
 namespace Framework\Renderer;
 
-use Framework\Router\RouterTwigExtension;
+use Utils\RouterTwigExtension;
 use Psr\Container\ContainerInterface;
 
 class TwigRendererFactory

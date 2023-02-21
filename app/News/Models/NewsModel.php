@@ -1,5 +1,8 @@
 <?php
 namespace App\News\Models;
+use Framework\Database\PaginatedQuery;
+use Pagerfanta\Pagerfanta;
+use App\News\Entity\News;
 
 class NewsModel
 {
@@ -19,26 +22,32 @@ class NewsModel
     }
 
     /**
-     * Retourne la totalité de la table et la pagine
-     * @return array
+     * Retourne la totalitï¿½ de la table et la pagine
+     * @return Pagerfanta
      */
-    public function findPaginated(): array
+    public function findPaginated(int $perPage, int $currentPage): Pagerfanta
     {
-        return $this->pdo
-			    ->query('SELECT * FROM news ORDER BY created_date DESC LIMIT 0, 10')
-			    ->fetchAll();
+        $query =  new PaginatedQuery(
+            $this->pdo,
+            'SELECT * FROM news',
+            'SELECT COUNT(id) FROM news'
+            );
+        return (new Pagerfanta($query))
+            ->setMaxPerPage($perPage)
+            ->setCurrentPage($currentPage);
     }
 
     /**
-     * Retourne une news en fonction de l'id récupérer
+     * Retourne une news en fonction de l'id rï¿½cupï¿½rer
      * @param int $id 
-     * @return mixed
+     * @return News
      */
-    public function find(int $id): \StdClass
+    public function find(int $id): News
     {
 		$query = $this->pdo
 				->prepare('SELECT * FROM news WHERE id = ?');
 		$query->execute([$id]);
+        $query->setFetchMode(\PDO::FETCH_CLASS, News::class);
 
         return $query->fetch();
     }

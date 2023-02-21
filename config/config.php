@@ -2,7 +2,9 @@
 
 use Framework\Renderer\RendererInterface;
 use Framework\Renderer\TwigRendererFactory;
-use Framework\Router\RouterTwigExtension;
+use Utils\RouterTwigExtension;
+use Utils\TwigPagerFantaExtension;
+use Utils\TwigTextExtension;
 
 /**
  * 
@@ -29,7 +31,9 @@ return [
 
     'views.path' => dirname(__DIR__) . '/app/views',
     'twig.extensions' => [
-        \DI\get(RouterTwigExtension::class)
+        \DI\get(RouterTwigExtension::class),
+        \DI\get(TwigPagerFantaExtension::class),
+        \DI\get(TwigTextExtension::class)
     ],
     \Framework\Router::class => \DI\autowire(),
 

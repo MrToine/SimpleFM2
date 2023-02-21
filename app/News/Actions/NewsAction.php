@@ -42,13 +42,14 @@ class NewsAction
         }
 		else
         {
-            return $this->index();
+            return $this->index($request);
         }
     }
 
-    public function index(): string
+    public function index(Request $request): string
 	{
-		$news = $this->table->findPaginated();
+		$params = $request->getQueryParams();
+		$news = $this->table->findPaginated(10, $params['p'] ?? 1);
 
 		return $this->renderer->render('@news/index', compact('news'));
 	}

@@ -1,0 +1,25 @@
+       <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <!--<a class="navbar-item" href="http://univers-toine.org" target="_blank"><i class="fas fa-undo-alt"></i>&ensp;V1</a>-->
+                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div id="navbarBasicExample" class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="{{ path('home.index') }}"><i class="fa-sharp fa-solid fa-house"></i>&ensp;Accueil</a>
+                    <!--<a class="navbar-item" href="{{ path('news.index') }}"><i class="fa-sharp fa-solid fa-newspaper"></i>&ensp;News</a>-->
+                    <a class="navbar-item" href="{{ path('forum.home') }}"><i class="fa-sharp fa-solid fa-people-roof"></i>&ensp;Forum</a>
+                </div>
+                <div class="navbar-end">
+                    {% if app.user %}
+                        <a class="navbar-item" href="{{ path('shop.home') }}"><i class="fa-solid fa-shop">&ensp;</i>Boutiques</a>
+                    {% else %}
+                        <a class="navbar-item" href="{{ path('users.login') }}"><i class="fa-solid fa-unlock-keyhole">&ensp;</i>Connexion</a>
+                        <a class="navbar-item" href="{{ path('users.register') }}"><i class="fa-solid fa-user-plus"></i>&ensp;M'enregistrer</a>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>

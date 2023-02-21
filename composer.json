@@ -5,6 +5,7 @@
     "autoload": {
         "psr-4": {
             "Framework\\": "src/Framework",
+            "Utils\\":  "src/Utils",
             "App\\": "app",
             "Tests\\": "tests"
         }
@@ -27,6 +28,7 @@
         "http-interop/response-sender": "^1.0",
         "mezzio/mezzio-fastroute": "^0.3.0",
         "twig/twig": "^3.5",
-        "php-di/php-di": "^7.0"
+        "php-di/php-di": "^7.0",
+        "pagerfanta/pagerfanta": "^3.7"
     }
 }

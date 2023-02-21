@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Router;
+namespace Utils;
 
 use Framework\Router;
 

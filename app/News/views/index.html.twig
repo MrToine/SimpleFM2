@@ -1,10 +1,47 @@
-{% extends 'layout.html.twig' %}
-
+﻿{% extends "layout.html.twig" %}
 {% block body %}
-    <h1>Actus</h1>
-    <ul>
-        {% for n in news %}
-            <li><a href="{{ path('news.view', {slug: n.slug, id: n.id}) }}">{{ n.name }}</a></li>
-        {% endfor %}
-    </ul>
+	<h1 class="title">Edito</h1>
+	<div class="container">
+		<div class="message-body">
+			<p>	
+		  	Vous êtes au bon endroit !
+			Bienvenue sur Univers-Toine, la plateforme qui vous offre un espace communautaire old-school où vous pouvez discuter et vous connecter avec des personnes qui partagent les mêmes centres d'intérêts que vous.
+			Notre forum regorge de discussions passionnantes sur une variété de sujets classés dans des catégories appropriées. Et ce n'est pas tout ! Nous avons également une section actualité qui vous tient informé sur les dernières tendances et nouvelles importantes.
+			</p>
+			<p>
+			<center><a href="">Direction le forum</a></center>
+		  	</p>
+			<p>	
+			Alors là, ne perdez plus de temps et rejoignez-nous dans notre espace communautaire ! Si vous le souhaitez, vous pouvez vous inscrire via le lien "s'inscrire" et commencer à explorer notre monde passionnant dès maintenant.
+			</p>
+			<a href="" class="button is-info">S'inscrire&emsp;<i class="fa fa-arrow-right"></i></a>
+		</div>
+	</div>
+	<h1 class="title mt-5">Dernière Actus</h1>
+	<div class="columns mt-4">	
+   	{% for new in news %}
+   		<div class="column is-one-third">
+			<div class="card" style="background-color: rgba(255,255,255,0.2);">
+			  <div class="card-image">
+			    <figure class="image is-2by2">
+			      <img src="" alt="Placeholder image">
+			    </figure>
+			  </div>
+			  <div class="card-content">
+			    <div class="media">
+			      <div class="media-content">
+			        <p class="title is-3 has-text-dark">{{ new.name }}</p>
+			      </div>
+			    </div>
+
+			    <div class="content">
+			      {{ new.content | slice }}<a href="{{ path('news.view', {slug: new.slug, id: new.id}) }}" class="has-text-success"> Lire la suite <i class="fa-solid fa-arrow-right"></i></a>
+			      <br>
+			      <time datetime="" class="has-text-primary">Le {{ new.creation_date | date('d/m/Y à H:i') }}</time>
+			    </div>
+			  </div>
+			</div>
+		</div>
+	{% endfor %}
+	</div>
 {% endblock %}
