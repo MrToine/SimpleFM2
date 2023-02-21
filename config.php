@@ -2,7 +2,7 @@
 
 return [
 /**
- * Permet de redéfinir la configuration du container
+ * Permet de redÃ©finir la configuration du container
  * 
  **/
 ];

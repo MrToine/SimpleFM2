@@ -1,5 +1,7 @@
 {
-    "name": "univers-toine/framework",
+    "name": "SimpleFM/SimpleFM",
+    "description": "A simple framework",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Framework\\": "src/Framework",
