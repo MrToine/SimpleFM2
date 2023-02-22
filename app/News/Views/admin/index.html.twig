@@ -1,0 +1,37 @@
+﻿
+{% extends '@admin/layout.html.twig' %}
+
+{% block body %}
+
+<p class="text-right">
+    <a href="{{ path('admin.news.create') }}" class="btn btn-success">Ajouter une news</a>
+</p>
+
+<table class="table table-striped">
+    <thead class="table-dark">
+        <th>ID</th>
+        <th>Titre</th>
+        <th>Courte description</th>
+        <th>Date de création</th>
+        <th>Date de mise à jour</th>
+        <th>Actions</th>
+    </thead>
+    {% for item in items %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.content | slice }}</td>
+            <td>Le {{ item.creation_date | date('d/m/Y à H:i') }}</td>
+            <td>Le {{ item.updated_date | date('d/m/Y à H:i') }}</td>
+            <td>
+                <a class="btn btn-primary" href="{{ path('admin.news.edit', {id: item.id}) }}">Editer</a>
+                <form style="display: inline;" action="{{ path('admin.news.delete', {id: item.id}) }}" method="post" onsubmit="return confirm('Action irréverssible. Continuer ?')">
+                    <input type="hidden" name="_METHOD" value="DELETE">
+                    <button class="btn btn-danger">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{{ paginate(items, 'admin.news.index') }}
+{% endblock %}

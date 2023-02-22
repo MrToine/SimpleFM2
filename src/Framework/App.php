@@ -54,6 +54,12 @@ class App
         // On récupère le chemin de l'URL
         $uri = $request->getUri()->getPath();
 
+        $parsedMethod = $request->getParsedBody();
+
+        if (array_key_exists('_METHOD', $parsedMethod) && in_array($parsedMethod['_METHOD'], ['DELETE', 'PUT'])) {
+            $request = $request->withMethod($parsedMethod['_METHOD']);
+        }
+
         // On vérifie si l'URL se termine par un '/'
         if (!empty($uri) && $uri[-1] === "/") {
             // Si oui, on redirige l'utilisateur sans le '/'

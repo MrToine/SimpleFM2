@@ -3,6 +3,7 @@ namespace App\DefaultModule;
 
 use Framework\Module;
 use Framework\Renderer\RendererInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Module par defaut servant d'exemple pour la construction d'autres modules au sein du Framework
@@ -10,16 +11,15 @@ use Framework\Renderer\RendererInterface;
 
 class DefaultModule extends Module
 {
-    public function __construct(RendererInterface $renderer)
+    public function __construct(ContainerInterface $container)
     {
-        $renderer->addPath('default', __DIR__ . '/Views');
+        /*$defaultPrefix = $container->get('default.prefix');*/
+
+        $container->get(RendererInterface::class)->addPath('default', __DIR__ . '/Views');
+
+		/*$router = $container->get(Router::class);
+
+        $router->get($defaultPrefix, NewsAction::class, 'default.index');*/
     }
 
-    public function index(Request $request): string
-	{
-		$params = $request->getQueryParams();
-		$news = $this->table->findPaginated(10, $params['p'] ?? 1);
-
-		return $this->renderer->render('@news/index', compact('news'));
-	}
 }

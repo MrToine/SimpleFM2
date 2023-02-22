@@ -2,6 +2,7 @@
 namespace App\News;
 
 use App\News\Actions\NewsAction;
+use App\News\Actions\AdminNewsAction;
 use Framework\Module;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
@@ -44,17 +45,22 @@ class NewsModule extends Module
 	 */
 	public function __construct(ContainerInterface $container)
 	{
+		$newsPrefix = $container->get('news.prefix');
+
         $container->get(RendererInterface::class)->addPath('news', __DIR__ . '/Views');
 
 		$router = $container->get(Router::class);
 
         $router->get($container->get('news.prefix'), NewsAction::class, 'news.index');
-        $router->get($container->get('news.prefix') . '/news/{slug:[a-z\0-9]+}-{id:[0-9]+}', NewsAction::class, 'news.view');
+        $router->get("$newsPrefix/{slug:[a-z\-0-9]+}-{id:[0-9]+}", NewsAction::class, 'news.view');
 
-		if($container->has('admin.prefix'))
-        {
+		if ($container->has('admin.prefix')) {
+			/**
+             * contient la liste des routes (CRUD => dans le router)
+             */
 			$prefix = $container->get('admin.prefix');
-            $router->get("$prefix/news" . '/news/{slug:[a-z\0-9]+}-{id:[0-9]+}', NewsAction::class, 'news.view');
+
+			$router->crud("$prefix/news", AdminNewsAction::class, 'admin.news');
         }
 	}
 }

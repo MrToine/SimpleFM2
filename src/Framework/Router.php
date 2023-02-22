@@ -34,6 +34,41 @@ class Router
         $this->router->addRoute(new MezzioRoute($path, $callable, ['GET'], $name));
     }
 
+    /**
+     * Génère les route du CRUD
+     * @param string $prefixPath
+     * @param mixed $callable
+     * @param null|string $prefixName
+     */
+    public function crud(string $prefixPath, $callable, ?string $prefixName)
+    {
+        $this->get("$prefixPath", $callable, "$prefixName.index");
+
+        $this->get("$prefixPath/create", $callable, "$prefixName.create");
+        $this->post("$prefixPath/create", $callable);
+
+        $this->get("$prefixPath/{id:\d+}", $callable, "$prefixName.edit");
+        $this->post("$prefixPath/{id:\d+}", $callable);
+
+        $this->delete("$prefixPath/{id:\d+}", $callable, "$prefixName.delete");
+    }
+
+    /**
+     * Summary of post
+     * @param string $path
+     * @param mixed $callable
+     * @param null|string $name
+     */
+    public function post(string $path, $callable, ?string $name = null)
+    {
+        $this->router->addRoute(new MezzioRoute($path, $callable, ['POST'], $name));
+    }
+
+    public function delete(string $path, $callable, ?string $name = null)
+    {
+        $this->router->addRoute(new MezzioRoute($path, $callable, ['DELETE'], $name));
+    }
+
 
     /**
      * [match description]

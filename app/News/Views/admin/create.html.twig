@@ -1,0 +1,11 @@
+{% extends '@admin/layout.html.twig' %}
+
+{% block body %}
+    <h2>Editer un article</h2>
+    <form action="{{ path('admin.news.create') }}" method="post">
+        {% include '@news/admin/_form.html.twig' %}
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Ajouter</button>
+        </div>
+    </form>
+{% endblock %}
