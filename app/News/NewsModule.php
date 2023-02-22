@@ -5,6 +5,7 @@ use App\News\Actions\NewsAction;
 use Framework\Module;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
+use Psr\Container\ContainerInterface;
 
 /**
  * Classe Principal du module qui extends de la classe maitresse <Module>.
@@ -41,11 +42,19 @@ class NewsModule extends Module
      * @param Router $router - permet de récupérer les informations du routeur
 	 * @param RendererInterface $renderer - Utiliser pour la génération du rendu
 	 */
-	public function __construct(string $prefix, Router $router, RendererInterface $renderer)
+	public function __construct(ContainerInterface $container)
 	{
-        $renderer->addPath('news', __DIR__ . '/Views');
+        $container->get(RendererInterface::class)->addPath('news', __DIR__ . '/Views');
 
-        $router->get($prefix, NewsAction::class, 'news.index');
-        $router->get($prefix . '/news/{slug:[a-z\0-9]+}-{id:[0-9]+}', NewsAction::class, 'news.view');
+		$router = $container->get(Router::class);
+
+        $router->get($container->get('news.prefix'), NewsAction::class, 'news.index');
+        $router->get($container->get('news.prefix') . '/news/{slug:[a-z\0-9]+}-{id:[0-9]+}', NewsAction::class, 'news.view');
+
+		if($container->has('admin.prefix'))
+        {
+			$prefix = $container->get('admin.prefix');
+            $router->get("$prefix/news" . '/news/{slug:[a-z\0-9]+}-{id:[0-9]+}', NewsAction::class, 'news.view');
+        }
 	}
 }

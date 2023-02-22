@@ -63,7 +63,8 @@ class App
         }
 
         // On cherche une route qui correspond à la requête
-        $route = $this->container->get(Router::class)->match($request);
+        $router = $this->container->get(Router::class);
+        $route = $router->match($request);
 
         // Si aucune route n'a été trouvée, on renvoie une erreur 404
         if (is_null($route)) {

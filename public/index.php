@@ -9,7 +9,9 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 // Les modules ajoutés à l'application.
 $modules = [
-     App\News\NewsModule::class,
+    App\Admin\AdminModule::class,
+    App\DefaultModule\DefaultModule::class,
+    App\News\NewsModule::class
 ];
 
 // Instancier un builder de conteneur d'injection de dépendances.

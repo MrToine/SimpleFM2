@@ -31,6 +31,6 @@ class TwigRendererFactory
         }
 
         // Retourne une nouvelle instance de TwigRenderer
-        return new TwigRenderer($loader, $twig);
+        return new TwigRenderer($twig);
     }
 }
