@@ -1,16 +1,16 @@
 <?php
-
 namespace App\News\Actions;
 
 use App\News\Models\NewsModel;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
+use Framework\Validator;
 use Framework\Session\FlashService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Contiens les différentes action du module (index, create, views, etc...)
+ * Contiens les diffÃ©rentes action du module (index, create, views, etc...)
  */
 class AdminNewsAction
 {
@@ -46,7 +46,7 @@ class AdminNewsAction
         {
             /**
              *
-             * Si les 6 derniers caractère de l'url termine par "create" alors on redirige vers la methode adequat
+             * Si les 6 derniers caractÃ¨re de l'url termine par "create" alors on redirige vers la methode adequat
              *
              * */
             return $this->create($request);
@@ -56,7 +56,7 @@ class AdminNewsAction
         {
             /**
              *
-             * Si les 6 derniers caractère de l'url termine par "create" alors on redirige vers la methode adequat
+             * Si les 6 derniers caractÃ¨re de l'url termine par "create" alors on redirige vers la methode adequat
              *
              * */
             return $this->delete($request);
@@ -88,14 +88,22 @@ class AdminNewsAction
         {
             $params = $this->getParams($request);
 
-            $this->table->update($item->id, $params);
+            $validator = $this->getValidator($request);
 
-            $this->flashSession->success('L\'article à bien été modifié');
+            if($validator->isValid())
+            {
+                $this->table->update($item->id, $params);
+                $this->flashSession->success('L\'article Ã  bien Ã©tÃ© modifiÃ©');
+                return $this->redirect('admin.news.index');
+            }
+            $errors = $validator->getErrors();
+            $params['id'] = $item->id;
+            $item = $params;
 
-            return $this->redirect('admin.news.index');
         }
 
-		return $this->renderer->render('@news/admin/edit', compact('item'));
+
+		return $this->renderer->render('@news/admin/edit', compact('item', 'errors'));
     }
 
     public function create(Request $request)
@@ -109,13 +117,18 @@ class AdminNewsAction
                 'created_date' => date('Y-m-d H:i:s'),
             ]);
 
-            $this->table->insert($params);
-            $this->flashSession->success('La news à bien été créeer');
-
-            return $this->redirect('admin.news.index');
+            $validator = $this->getValidator($request);
+            if($validator->isValid())
+            {
+                $this->table->insert($params);
+                $this->flashSession->success('La news Ã  bien Ã©tÃ© crÃ©eer');
+                return $this->redirect('admin.news.index');
+            }
+            $errors = $validator->getErrors();
+            $items = $params;
         }
 
-		return $this->renderer->render('@news/admin/create');
+		return $this->renderer->render('@news/admin/create', ['items' => $items, 'errors' => $errors]);
     }
 
     public function delete(Request $request)
@@ -124,7 +137,7 @@ class AdminNewsAction
 
         $this->table->delete($item->id);
 
-        $this->flashSession->success('L\'article à bien été supprimé');
+        $this->flashSession->success('L\'article Ã  bien Ã©tÃ© supprimÃ©');
 
         return $this->redirect('admin.news.index');
     }
@@ -134,5 +147,15 @@ class AdminNewsAction
         return array_filter($request->getParsedBody(), function ($key) {
                 return in_array($key, ['name', 'content', 'slug']);
             }, ARRAY_FILTER_USE_KEY);
+    }
+
+    public function getValidator(Request $request)
+    {
+        return (new Validator($request->getParsedBody()))
+            ->required('content', 'name', 'slug')
+            ->length('content', 10)
+            ->length('name', 2, 150)
+            ->length('slug', 2, 150)
+            ->slug('slug');
     }
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Framework\Renderer;
 
+use Twig\Extension\DebugExtension;
 use Utils\RouterTwigExtension;
 use Psr\Container\ContainerInterface;
 
@@ -21,7 +22,8 @@ class TwigRendererFactory
         $loader = new \Twig\Loader\FilesystemLoader($viewPath);
         
         // Crée une instance de l'environnement Twig
-        $twig = new \Twig\Environment($loader);
+        $twig = new \Twig\Environment($loader, ['debug' => true]);
+        $twig->addExtension(new DebugExtension());
         
         // Ajoute les extensions Twig du conteneur s'il y en a
         if ($container->has('twig.extensions')) {

@@ -65,6 +65,7 @@ class App
             // Si oui, on redirige l'utilisateur sans le '/'
             return (new Response())
                 ->withStatus(301)
+                ->withHeader('Content-Type: text/html; charset=utf-8')
                 ->withHeader('Location', substr($uri, 0, -1));
         }
 
