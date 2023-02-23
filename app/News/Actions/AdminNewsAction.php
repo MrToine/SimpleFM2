@@ -6,7 +6,7 @@ use App\News\Models\NewsModel;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
-use Phinx\Console\Command\Create;
+use Framework\Session\FlashService;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
@@ -24,13 +24,20 @@ class AdminNewsAction
 
 	private $router;
 
+    private $flashSession;
+
 	use RouterAwareAction;
 
-	public function __construct(RendererInterface $renderer, Router $router, NewsModel $newsModel)
+	public function __construct(
+        RendererInterface $renderer,
+        Router $router,
+        NewsModel $newsModel,
+        FlashService $flashSession)
     {
 		$this->table = $newsModel;
         $this->renderer = $renderer;
 		$this->router = $router;
+        $this->flashSession = $flashSession;
     }
 
 	public function __invoke(Request $request)
@@ -83,6 +90,8 @@ class AdminNewsAction
 
             $this->table->update($item->id, $params);
 
+            $this->flashSession->success('L\'article à bien été modifié');
+
             return $this->redirect('admin.news.index');
         }
 
@@ -101,6 +110,7 @@ class AdminNewsAction
             ]);
 
             $this->table->insert($params);
+            $this->flashSession->success('La news à bien été créeer');
 
             return $this->redirect('admin.news.index');
         }
@@ -113,6 +123,8 @@ class AdminNewsAction
         $item = $this->table->find($request->getAttribute('id'));
 
         $this->table->delete($item->id);
+
+        $this->flashSession->success('L\'article à bien été supprimé');
 
         return $this->redirect('admin.news.index');
     }

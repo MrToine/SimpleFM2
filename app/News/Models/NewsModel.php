@@ -30,7 +30,7 @@ class NewsModel
     {
         $query =  new PaginatedQuery(
             $this->pdo,
-            'SELECT * FROM news',
+            'SELECT * FROM news ORDER BY created_date DESC',
             'SELECT COUNT(id) FROM news'
             );
         return (new Pagerfanta($query))
