@@ -1,152 +1,45 @@
 <?php
 namespace App\News\Actions;
 
-use App\News\Entity\News;
+use App\News\Models\CategoryModel;
 use App\News\Models\NewsModel;
-use Framework\Actions\RouterAwareAction;
+use Framework\Actions\CrudAction;
 use Framework\Renderer\RendererInterface;
 use Framework\Router;
-use Framework\Validator;
 use Framework\Session\FlashService;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Contiens les différentes action du module (index, create, views, etc...)
  */
-class AdminNewsAction
+class AdminNewsAction extends CrudAction
 {
-	/**
-     *
-     * @var mixed
-     */
-	private $renderer;
+    protected $viewPath = '@news/admin/news';
 
-	private $table;
+    protected $routePrefix = 'admin.news';
 
-	private $router;
+    private $categoryTable;
 
-    private $flashSession;
-
-	use RouterAwareAction;
-
-	public function __construct(
-        RendererInterface $renderer,
-        Router $router,
-        NewsModel $newsModel,
-        FlashService $flashSession)
+    public function __construct(RendererInterface $renderer,
+        Router $router, 
+        NewsModel $table, 
+        FlashService $flashSession,
+        CategoryModel $categoryTable)
     {
-		$this->table = $newsModel;
-        $this->renderer = $renderer;
-		$this->router = $router;
-        $this->flashSession = $flashSession;
+        parent::__construct($renderer, $router, $table, $flashSession);
+        $this->categoryTable = $categoryTable;
     }
 
-	public function __invoke(Request $request)
+    protected function formParams(array $params): array
     {
-        if(substr((string)$request->getUri(), -6) === "create")
-        {
-            /**
-             *
-             * Si les 6 derniers caractère de l'url termine par "create" alors on redirige vers la methode adequat
-             *
-             * */
-            return $this->create($request);
-        }
-
-        if($request->getMethod() === "DELETE")
-        {
-            /**
-             *
-             * Si les 6 derniers caractère de l'url termine par "create" alors on redirige vers la methode adequat
-             *
-             * */
-            return $this->delete($request);
-        }
-
-		if($request->getAttribute('id'))
-        {
-			return $this->edit($request);
-        }
-		else
-        {
-            return $this->index($request);
-        }
+        $params['categories'] = $this->categoryTable->findList();
+        return $params;
     }
 
-    public function index(Request $request): string
-	{
-		$params = $request->getQueryParams();
-		$items = $this->table->findPaginated(10, $params['p'] ?? 1);
-
-		return $this->renderer->render('@news/admin/index', ['items' => $items]);
-	}
-
-	public function edit(Request $request)
-    {
-        $errors = null;
-
-        $item = $this->table->find($request->getAttribute('id'));
-
-		if($request->getMethod() === 'POST')
-        {
-            $params = $this->getParams($request);
-
-            $validator = $this->getValidator($request);
-
-            if($validator->isValid())
-            {
-                $this->table->update($item->id, $params);
-                $this->flashSession->success('L\'article à bien été modifié');
-                return $this->redirect('admin.news.index');
-            }
-            $errors = $validator->getErrors();
-            $params['id'] = $item->id;
-            $item = $params;
-
-        }
-
-
-		return $this->renderer->render('@news/admin/edit', compact('item', 'errors'));
-    }
-
-    public function create(Request $request)
-    {
-        $items = null;
-        $errors = null;
-
-		if($request->getMethod() === 'POST')
-        {
-            $params = $this->getParams($request);
-
-            $validator = $this->getValidator($request);
-            if($validator->isValid())
-            {
-                $this->table->insert($params);
-                $this->flashSession->success('La news à bien été créeer');
-                return $this->redirect('admin.news.index');
-            }
-            $items = new News();
-            $errors = $validator->getErrors();
-        }
-
-		return $this->renderer->render('@news/admin/create', ['items' => $items, 'errors' => $errors]);
-    }
-
-    public function delete(Request $request)
-    {
-        $item = $this->table->find($request->getAttribute('id'));
-
-        $this->table->delete($item->id);
-
-        $this->flashSession->success('L\'article à bien été supprimé');
-
-        return $this->redirect('admin.news.index');
-    }
-
-    private function getParams(Request $request)
+    protected function getParams(RequestInterface $request): array
     {
         $params = array_filter($request->getParsedBody(), function ($key) {
-                return in_array($key, ['name', 'content', 'slug', 'created_date']);
+                return in_array($key, ['name', 'content', 'slug', 'created_date', 'category_id']);
             }, ARRAY_FILTER_USE_KEY);
 
         return array_merge($params, [
@@ -154,13 +47,14 @@ class AdminNewsAction
         ]);
     }
 
-    public function getValidator(Request $request)
+    protected function getValidator(RequestInterface $request)
     {
-        return (new Validator($request->getParsedBody()))
-            ->required('content', 'name', 'slug', 'created_date')
+        return parent::getValidator($request)
+            ->required('content', 'name', 'slug', 'created_date', 'category_id')
             ->length('content', 10)
             ->length('name', 2, 150)
             ->length('slug', 2, 150)
+            ->exists('category_id', $this->categoryTable->getTable(), $this->categoryTable->getPdo())
             ->slug('slug');
     }
 }

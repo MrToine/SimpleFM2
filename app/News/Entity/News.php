@@ -15,6 +15,8 @@ class News
 
     public $updated_date;
 
+    public $category_name;
+
     public function __construct()
     {
         if($this->created_date)

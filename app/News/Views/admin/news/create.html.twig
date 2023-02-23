@@ -2,8 +2,9 @@
 
 {% block body %}
     <h2>Editer un article</h2>
-    <form action="{{ path('admin.news.create') }}" method="post">
-        {% include '@news/admin/_form.html.twig' %}
+    <form action="{{ path(routePrefix ~ '.create') }}" method="post">
+        <!-- equivaut à inclide "@news/admin/partials/_form.html.twig -->
+        {% include viewPath ~ '/_form.html.twig' %}
         <div class="form-group">
             <button class="btn btn-primary" type="submit">Ajouter</button>
         </div>

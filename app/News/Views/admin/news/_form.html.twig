@@ -1,0 +1,13 @@
+﻿<div class="row align-items-start">
+    <div class="col">
+        {{ field('name', item.name, "Titre de l'article") }}
+    </div>    
+    <div class="col">
+        {{ field('category_id', item.category_id, "Catégorie", {options : categories}) }}
+    </div>
+    <div class="col">
+        {{ field('slug', item.slug, "Slug") }}
+    </div>
+</div>
+{{ field('content', item.content, "Contenu de l'article", {type: 'textarea'}) }}
+{{ field('created_date', item.created_date, "Date de création", {class: 'datepicker'}) }}

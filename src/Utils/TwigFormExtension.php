@@ -35,6 +35,8 @@ class TwigFormExtension extends \Twig\Extension\AbstractExtension
 
         if ($type === 'textarea') {
             $input = $this->textarea($value, $attributes);
+        } elseif (array_key_exists('options', $options)) {
+            $input = $this->select($value, $options['options'], $attributes);
         } else {
             $input = $this->input($value, $attributes);
         }
@@ -75,10 +77,25 @@ class TwigFormExtension extends \Twig\Extension\AbstractExtension
         return "<textarea " . $this->getHtmlFromArray($attributes) . " rows=\"10\">$value</textarea>";
     }
 
+    private function select(?string $value, array $options, array $attributes): string
+    {
+        $htmlOptions = array_reduce(array_keys($options), function (string $html, string $key) use ($options, $value) {
+            $params = ['value' => $key, 'selected' => $key === $value];
+            return $html . '<option value="' . $key . '">' . $options[$key] . '</option>';
+        }, "");
+        return "<select " . $this->getHtmlFromArray($attributes) . " rows=\"10\">$htmlOptions</select>";
+    }
+
     private function getHtmlFromArray(array $attributes)
     {
-        return implode(' ', array_map(function ($key, $value) {
-            return "$key=\"$value\"";
-        }, array_keys($attributes), $attributes));
+        $htmlParts = [];
+        foreach ($attributes as $key => $value) {
+            if ($value === true) {
+                $htmlParts[] = (string) $key;
+            } elseif ($htmlParts !== false) {
+                $htmlParts[] = "$key=\"$value\"";
+            }
+        }
+        return implode(' ', $htmlParts);
     }
 }

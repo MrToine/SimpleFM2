@@ -2,6 +2,7 @@
 namespace App\News;
 
 use App\News\Actions\NewsAction;
+use App\News\Actions\AdminCategoryAction;
 use App\News\Actions\AdminNewsAction;
 use Framework\Module;
 use Framework\Renderer\RendererInterface;
@@ -61,6 +62,7 @@ class NewsModule extends Module
 			$prefix = $container->get('admin.prefix');
 
 			$router->crud("$prefix/news", AdminNewsAction::class, 'admin.news');
+			$router->crud("$prefix/news/categories", AdminCategoryAction::class, 'admin.news.categories');
         }
 	}
 }

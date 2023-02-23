@@ -1,10 +1,13 @@
 <?php
 namespace Framework;
 
+use Framework\Database\Model;
 use Framework\Validator\ValidationError;
 
 class Validator
 {
+
+    private $pdo;
 
     private $params;
 
@@ -139,6 +142,25 @@ class Validator
     public function getErrors()
     {
         return $this->errors;
+    }
+
+    /**
+     * Vérifie que la clef existe dans la table donnée
+     *
+     * @param string $key
+     * @param string $table
+     * @param \PDO $pdo
+     * @return Validator
+     */
+    public function exists(string $key, string $table, \PDO $pdo): self
+    {
+        $value = $this->getValue($key);
+        $statement = $pdo->prepare("SELECT id FROM $table WHERE id = ?");
+        $statement->execute([$value]);
+        if ($statement->fetchColumn() === false) {
+            $this->addError($key, 'exists', [$table]);
+        }
+        return $this;
     }
 
     /**
