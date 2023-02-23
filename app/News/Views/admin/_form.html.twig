@@ -1,13 +1,4 @@
-﻿<div class="form-group">
-    <pre>{{ dump(errors) }}</pre>
-            <label for="name">Titre de l'article</label>
-            <input type="text" class="form-control" name="name" id="name" value="{{ item.name }}" placeholder="Un titre accrocheur !">
-        <div class="form-group">
-        </div>
-            <label for="slug">slug</label>
-            <input type="text" class="form-control" name="slug" id="slug" value="{{ item.slug }}" placeholder="titre-de-la-news">
-        <div class="form-group">
-        </div>
-            <label for="content">Contenu</label>
-            <textarea name="content" id="content" rows="10" class="form-control" placeholder="Ici on écris une actus de la mort ;)">{{ item.content }}</textarea>
-        </div>
+﻿{{ field('name', item.name, "Titre de l'article") }}
+{{ field('slug', item.slug, "Slug de l'article") }}
+{{ field('content', item.content, "Contenu de l'article", {type: 'textarea'}) }}
+{{ field('created_date', item.created_date, "Date de création", {class: 'datepicker'}) }}

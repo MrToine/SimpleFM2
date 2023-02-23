@@ -1,6 +1,7 @@
 <?php
 namespace App\News\Actions;
 
+use App\News\Entity\News;
 use App\News\Models\NewsModel;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
@@ -82,6 +83,8 @@ class AdminNewsAction
 
 	public function edit(Request $request)
     {
+        $errors = null;
+
         $item = $this->table->find($request->getAttribute('id'));
 
 		if($request->getMethod() === 'POST')
@@ -108,14 +111,12 @@ class AdminNewsAction
 
     public function create(Request $request)
     {
+        $items = null;
+        $errors = null;
+
 		if($request->getMethod() === 'POST')
         {
             $params = $this->getParams($request);
-
-            $params = array_merge($params, [
-                'updated_date' => date('Y-m-d H:i:s'),
-                'created_date' => date('Y-m-d H:i:s'),
-            ]);
 
             $validator = $this->getValidator($request);
             if($validator->isValid())
@@ -124,8 +125,8 @@ class AdminNewsAction
                 $this->flashSession->success('La news à bien été créeer');
                 return $this->redirect('admin.news.index');
             }
+            $items = new News();
             $errors = $validator->getErrors();
-            $items = $params;
         }
 
 		return $this->renderer->render('@news/admin/create', ['items' => $items, 'errors' => $errors]);
@@ -144,15 +145,19 @@ class AdminNewsAction
 
     private function getParams(Request $request)
     {
-        return array_filter($request->getParsedBody(), function ($key) {
-                return in_array($key, ['name', 'content', 'slug']);
+        $params = array_filter($request->getParsedBody(), function ($key) {
+                return in_array($key, ['name', 'content', 'slug', 'created_date']);
             }, ARRAY_FILTER_USE_KEY);
+
+        return array_merge($params, [
+            'updated_date' => date('Y-m-d H:i:s'),
+        ]);
     }
 
     public function getValidator(Request $request)
     {
         return (new Validator($request->getParsedBody()))
-            ->required('content', 'name', 'slug')
+            ->required('content', 'name', 'slug', 'created_date')
             ->length('content', 10)
             ->length('name', 2, 150)
             ->length('slug', 2, 150)

@@ -6,9 +6,10 @@ use Framework\Session\PHPSession;
 use Framework\Session\SessionInterface;
 use Psr\Container\ContainerInterface;
 use Utils\{
-    TwigFlashExtension, 
-    TwigPagerFantaExtension, 
-    TwigTextExtension, 
+    TwigFlashExtension,
+    TwigPagerFantaExtension,
+    TwigTextExtension,
+    TwigFormExtension,
     RouterTwigExtension
 };
 
@@ -41,6 +42,7 @@ return [
         \DI\get(TwigPagerFantaExtension::class),
         \DI\get(TwigTextExtension::class),
         \DI\get(TwigFlashExtension::class),
+        \DI\get(TwigFormExtension::class),
     ],
 
     /**

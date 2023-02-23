@@ -62,7 +62,7 @@ class Validator
             !is_null($max) &&
             ($length < $min || $length > $max)
             ) {
-            $this->addError($key, 'beetweenLength', [$min, $max]);
+            $this->addError($key, 'betweenLength', [$min, $max]);
             return $this;
         }
 
@@ -98,7 +98,7 @@ class Validator
             return $this;
         }
 
-        $pattern = '/^([a-z0-9]+-?)+$/';
+        $pattern = '/^[a-z0-9]+(-[a-z0-9]+)*$/';
         if (!preg_match($pattern, $this->params[$key])) {
             $this->addError($key, 'slug');
         }

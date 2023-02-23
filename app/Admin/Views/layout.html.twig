@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8" />
     <title>Administration</title>
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/admin.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css" integrity="sha512-MQXduO8IQnJVq1qmySpN87QQkiR1bZHtorbJBD0tzy7/0U9+YIC93QWHeGTEoojMVHWWNkoCp8V6OzVSYrX0oQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <h1>Administration</h1>
@@ -24,5 +25,14 @@
         </div>
         <div class="col-2"></div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js" integrity="sha512-K/oyQtMXpxI4+K0W7H25UopjM8pzq0yrVdFdG21Fh5dBe91I40pDd9A4lzNlHPHBIP2cwZuoxaUSX0GJSObvGA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        flatpickr('.datepicker', {
+            enableTime: true,
+            altIput: true,
+            altFormat: 'j F Y, H:i',
+            dateFormat: 'Y-m-d H:i:S'
+        })
+    </script>
 </body>
 </html>
