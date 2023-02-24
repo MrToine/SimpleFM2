@@ -1,0 +1,36 @@
+﻿
+{% extends '@admin/layout.html.twig' %}
+
+{% block body %}
+
+<p class="text-right">
+    <!-- equivaut à path('admin.news.create')  -->
+    <a href="{{ path(routePrefix ~ '.create') }}" class="btn btn-info">Ajouter une page</a>
+</p>
+
+<table class="table table-striped">
+    <thead class="table-dark">
+        <th>ID</th>
+        <th>Catégorie</th>
+        <th>Titre</th>
+        <th>Courte description</th>
+        <th>Actions</th>
+    </thead>
+    {% for item in items %}
+        <tr>
+            <td>{{ item.id }}</td>
+            <td>{{ item.category_name }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.content | slice }}</td>
+            <td>
+                <a class="btn btn-primary" href="{{ path(routePrefix ~ '.edit', {id: item.id}) }}"><i class="fa-solid fa-file-pen"></i></a>
+                <form style="display: inline;" action="{{ path(routePrefix ~ '.delete', {id: item.id}) }}" method="post" onsubmit="return confirm('Action irréversible. Continuer ?')">
+                    <input type="hidden" name="_METHOD" value="DELETE">
+                    <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+{{ paginate(items, routePrefix ~ '.index') }}
+{% endblock %}

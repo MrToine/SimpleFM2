@@ -1,25 +1,53 @@
-       <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <!--<a class="navbar-item" href="http://univers-toine.org" target="_blank"><i class="fas fa-undo-alt"></i>&ensp;V1</a>-->
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-            <div id="navbarBasicExample" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="{{ path('home.index') }}"><i class="fa-sharp fa-solid fa-house"></i>&ensp;Accueil</a>
-                    <!--<a class="navbar-item" href="{{ path('news.index') }}"><i class="fa-sharp fa-solid fa-newspaper"></i>&ensp;News</a>-->
-                    <a class="navbar-item" href="{{ path('forum.home') }}"><i class="fa-sharp fa-solid fa-people-roof"></i>&ensp;Forum</a>
+<header style="background:url({{ asset('/img/header_variation_3.png') }}) no-repeat;height: 313px; background-color: #3B3838; border-bottom: 1px solid black" class="section">
+            <div id="site-name-container" style="">
+                <div class="row">
+                    <div class="col m-5">
+                        <h1 class="title is-1" id="site-name">Univers-Toine</h1>
+                        <h4 class="subtitle" style="background-color: rgba(255,255,255,0.7);width: 300px">Un lieu, des passions</h4>
+                    </div>
+                    <div class="column is-one-fifth">
+                        {% if app.user %}
+                            <div class="card">
+                              <div class="card-content" style="background-color: rgba(0,0,0,0.4);">
+                                <div class="media">
+                                  <div class="media-left">
+                                    <figure class="image is-48x48">
+                                      <img src="{{ asset('uploads/avatars/' ~ app.user.id ~ '/' ~ app.user.avatarName) }}" alt="Placeholder image">
+                                    </figure>
+                                  </div>
+                                  <div class="media-content">
+                                    <p class="title is-4">{{ app.user.displayName }} | <em>Niv.{{ app.user.level }}</em></p>
+                                    <p class="subtitle is-6">{{ app.user.money|number_format(0, ',', ' ') }}<i class="fa-solid fa-coins has-text-warning"></i></p>
+                                  </div>
+                                </div>
+                                <div class="content">
+                                  <p>
+                                  {% if 'ROLE_ADMIN' in app.user.roles %}
+                                    <a href="{{ path('admin', {id: app.user.id}) }}" class="has-text-danger"><i class="fa-solid fa-toolbox"></i> Admin</a> | 
+                                  {% endif %}
+                                  <a href="{{ path('users.profile', {id: app.user.id}) }}"><i class="fa-solid fa-address-card"></i> Profil</a> | 
+                                  <a href="{{ path('users.logout') }}"><i class="fa-solid fa-power-off"></i> Partir</a></p>
+                                  <time datetime="2016-1-1">Inscrit le {{ app.user.registrationDate | date('d/m/Y') }}</time>
+                                </div>
+                                {% for message in app.flashes('info-rpg') %} 
+                                    <span class="tag is-primary is-light">{{ message }}</span>      
+                                {% endfor %}
+                              </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="column is-one-fifth"></div>
                 </div>
-                <div class="navbar-end">
-                    {% if app.user %}
-                        <a class="navbar-item" href="{{ path('shop.home') }}"><i class="fa-solid fa-shop">&ensp;</i>Boutiques</a>
-                    {% else %}
-                        <a class="navbar-item" href="{{ path('users.login') }}"><i class="fa-solid fa-unlock-keyhole">&ensp;</i>Connexion</a>
-                        <a class="navbar-item" href="{{ path('users.register') }}"><i class="fa-solid fa-user-plus"></i>&ensp;M'enregistrer</a>
-                    {% endif %}
-                </div>
             </div>
-        </nav>
+        </header>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Framework</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+
+    </div>
+  </div>
+</nav>

@@ -10,7 +10,7 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 // Les modules ajoutés à l'application.
 $modules = [
     App\Admin\AdminModule::class,
-    App\DefaultModule\DefaultModule::class,
+    App\Pages\PagesModule::class,
     App\News\NewsModule::class
 ];
 

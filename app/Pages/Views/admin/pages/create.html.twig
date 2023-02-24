@@ -1,0 +1,12 @@
+{% extends '@admin/layout.html.twig' %}
+
+{% block body %}
+    <h2>Créer une page</h2>
+    <form action="{{ path(routePrefix ~ '.create') }}" method="post">
+        <!-- equivaut à inclide "@news/admin/partials/_form.html.twig -->
+        {% include viewPath ~ '/_form.html.twig' %}
+        <div class="form-group">
+            <button class="btn btn-primary" type="submit">Ajouter</button>
+        </div>
+    </form>
+{% endblock %}

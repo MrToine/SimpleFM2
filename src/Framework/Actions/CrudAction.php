@@ -91,6 +91,11 @@ class CrudAction
         }
     }
 
+    /**
+     * Génère une page index générique pour le CRUD
+     * @param RequestInterface $request 
+     * @return bool|string
+     */
     public function index(RequestInterface $request): string
     {
         $params = $request->getQueryParams();

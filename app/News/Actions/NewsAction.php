@@ -2,6 +2,7 @@
 
 namespace App\News\Actions;
 
+use App\News\Models\CategoryModel;
 use App\News\Models\NewsModel;
 use Framework\Actions\RouterAwareAction;
 use Framework\Renderer\RendererInterface;
@@ -21,13 +22,19 @@ class NewsAction
 
 	private $table;
 
+	private $category;
+
 	private $router;
 
 	use RouterAwareAction;
 
-	public function __construct(RendererInterface $renderer, Router $router, NewsModel $newsModel)
+	public function __construct(RendererInterface $renderer, 
+		Router $router, 
+		NewsModel $newsModel, 
+		CategoryModel $categoryModel)
     {
 		$this->table = $newsModel;
+		$this->category = $categoryModel;
         $this->renderer = $renderer;
 		$this->router = $router;
     }
@@ -49,9 +56,10 @@ class NewsAction
     public function index(Request $request): string
 	{
 		$params = $request->getQueryParams();
-		$news = $this->table->findPaginated(10, $params['p'] ?? 1);
+		$news = $this->table->findPaginatedPublic(10, $params['p'] ?? 1);
+		$categories = $this->category->findAll();
 
-		return $this->renderer->render('@news/index', compact('news'));
+		return $this->renderer->render('@news/index', compact('news', 'categories'));
 	}
 
 	/**

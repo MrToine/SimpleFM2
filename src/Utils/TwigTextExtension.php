@@ -27,6 +27,11 @@ class TwigTextExtension extends \Twig\Extension\AbstractExtension
      */
     public function slice(string $content, int $maxLength = 100): string
     {
+        if(is_null($content))
+        {
+            return '';
+        }
+
         if (mb_strlen($content) > $maxLength) {
             $slice = mb_substr($content, 0, $maxLength);
             $lastSpace = mb_strrpos($slice, ' ');

@@ -1,49 +1,68 @@
 ﻿{% extends "layout.html.twig" %}
 {% block body %}
-	<h1 class="title">Edito</h1>
-	<div class="container">
-		<div class="message-body">
-			<p>	
-		  	Vous êtes au bon endroit !
+  <section class="py-5 text-left container">
+    <div class="row py-lg-5">
+      <div class="col-lg-12 col-md-8 mx-auto">
+        <h1 class="fw-light">Edito</h1>
+        <p class="lead text-muted">Vous êtes au bon endroit !
 			Bienvenue sur Univers-Toine, la plateforme qui vous offre un espace communautaire old-school où vous pouvez discuter et vous connecter avec des personnes qui partagent les mêmes centres d'intérêts que vous.
-			Notre forum regorge de discussions passionnantes sur une variété de sujets classés dans des catégories appropriées. Et ce n'est pas tout ! Nous avons également une section actualité qui vous tient informé sur les dernières tendances et nouvelles importantes.
-			</p>
-			<p>
-			<center><a href="">Direction le forum</a></center>
-		  	</p>
-			<p>	
-			Alors là, ne perdez plus de temps et rejoignez-nous dans notre espace communautaire ! Si vous le souhaitez, vous pouvez vous inscrire via le lien "s'inscrire" et commencer à explorer notre monde passionnant dès maintenant.
-			</p>
-			<a href="" class="button is-info">S'inscrire&emsp;<i class="fa fa-arrow-right"></i></a>
-		</div>
-	</div>
-	<h1 class="title mt-5">Dernière Actus</h1>
-	<div class="columns mt-4">	
-   	{% for new in news %}
-   		<div class="column is-one-third">
-			<div class="card" style="background-color: rgba(255,255,255,0.2);">
-			  <div class="card-image">
-			    <figure class="image is-2by2">
-			      <img src="" alt="Placeholder image">
-			    </figure>
-			  </div>
-			  <div class="card-content">
-			    <div class="media">
-			      <div class="media-content">
-			        <p class="title is-3 has-text-dark">{{ new.name }}</p>
-			      </div>
-			    </div>
-
-			    <div class="content">
-			      {{ new.content | slice }}<a href="{{ path('news.view', {slug: new.slug, id: new.id}) }}" class="has-text-success"> Lire la suite <i class="fa-solid fa-arrow-right"></i></a>
-			      <br>
-			      <time datetime="" class="has-text-primary">Le {{ new.creation_date | date('d/m/Y à H:i') }}</time>
-			    </div>
-			  </div>
-			</div>
-		</div>
-	{% endfor %}
-	</div>
-{{ paginate(news, 'news.index') }}
+			Notre forum regorge de discussions passionnantes sur une variété de sujets classés dans des catégories appropriées. Et ce n'est pas tout ! Nous avons également une section actualité qui vous tient informé sur les dernières tendances et nouvelles importantes.</p>
+		<p class="lead text-muted">	
+			Alors, ne perdez plus de temps et rejoignez-nous dans notre espace communautaire ! Si vous le souhaitez, vous pouvez vous inscrire via le lien "s'inscrire" et commencer à explorer notre monde passionnant dès maintenant.
+		</p>
+        <p>
+          <a href="#" class="btn btn-secondary my-2">Direction le forum</a>
+          <a href="#" class="btn btn-primary my-2">S'inscrire</a>
+        </p>
+      </div>
+    </div>
+  </section>
+  <div class="row bg-light">
+    <div class="col-md-9">
+      <div class="album py-5">
+      <div class="container">
+        <h1>Dernières Actus</h1>
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for n in news %}
+            <div class="col">
+              <div class="card shadow-sm">
+                <!--<svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>-->
+                <div class="card-header">{{ n.name }}</div>
+                <div class="card-body">
+                  <small class="text-muted">Le {{ n.created_date | date('d/m/Y à H:i') }} 
+                  {% if n.category_name %}
+                    dans <a href="" title="" class="text-primary">{{ n.category_name }}</a>
+                  {% endif %}
+                  </small>
+                  <p class="card-text">{{ n.content | slice | raw }}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <a href="{{ path('news.view', {slug: n.slug, id: n.id}) }}" type="button" class="btn btn-sm btn-outline-info">Aller jeter un oeil</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="mt-2">
+            {{ paginate(news, 'news.index') }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 bg-light">
+      <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="height:100%">
+          <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+            <span class="fs-4">Menu</span>
+          </a>
+          <hr>
+          <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action">Lien</a>
+          </div>
+        </div>
+    </div>
+  </div> 
 
 {% endblock %}

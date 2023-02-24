@@ -20,6 +20,35 @@ class AdminCategoryAction extends CrudAction
     public function __construct(RendererInterface $renderer,Router $router, CategoryModel $table, FlashService $flashSession)
     {
         parent::__construct($renderer, $router, $table, $flashSession);
+        $this->renderer = $renderer;
+        $this->table = $table;
+        $this->flashSession = $flashSession;
+    }
+
+    public function create(RequestInterface $request)
+    {
+
+        $errors = null;
+        $items = null;
+
+        if ($request->getMethod() === 'POST') {
+            $params = $this->getParams($request);
+            $params['type'] = 'NEWS';
+
+            $validator = $this->getValidator($request);
+            if ($validator->isValid()) {
+                $this->table->insert($params);
+                $this->flashSession->success($this->messagesFlash['edit']);
+                return $this->redirect($this->routePrefix . '.index');
+            }
+            $items = $params;
+            $errors = $validator->getErrors();
+        }
+
+        return $this->renderer->render(
+            $this->viewPath . '/create',
+            $this->formParams(compact('item', 'errors'))
+        );
     }
     protected function getParams(RequestInterface $request): array
     {

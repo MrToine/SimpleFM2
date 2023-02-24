@@ -9,7 +9,7 @@ class Model
      * instance de PDO
      * @var mixed
      */
-    private $pdo;
+    protected $pdo;
 
     /**
      * Nom de la table en base de données
@@ -88,6 +88,22 @@ class Model
         }
 
         return $query->fetch() ?: null;
+    }
+
+    public function findAll(): array
+    {
+        $query = $this->pdo->query("SELECT * FROM {$this->table}");
+        
+        if($this->entity)
+        {
+            $query->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
+        }
+        else
+        {
+            $query->setFetchMode(\PDO::FETCH_OBJ);
+        }
+        
+        return $query->fetchAll();
     }
 
     /**

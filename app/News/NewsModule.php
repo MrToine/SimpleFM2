@@ -54,6 +54,7 @@ class NewsModule extends Module
 
         $router->get($container->get('news.prefix'), NewsAction::class, 'news.index');
         $router->get("$newsPrefix/{slug:[a-z\-0-9]+}-{id:[0-9]+}", NewsAction::class, 'news.view');
+        $router->get("$newsPrefix/category/{slug:[a-z\-0-9]+}", CategoryAction::class, 'news.category');
 
 		if ($container->has('admin.prefix')) {
 			/**
