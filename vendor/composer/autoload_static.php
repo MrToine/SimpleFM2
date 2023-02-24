@@ -26,6 +26,10 @@ class ComposerStaticInit0df7744a7b22ca6acaf5cfbd5a3aeac5
     );
 
     public static $prefixLengthsPsr4 = array (
+        'W' => 
+        array (
+            'Whoops\\' => 7,
+        ),
         'U' => 
         array (
             'Utils\\' => 6,
@@ -52,6 +56,7 @@ class ComposerStaticInit0df7744a7b22ca6acaf5cfbd5a3aeac5
         array (
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
+            'Psr\\Http\\Server\\' => 16,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'PhpParser\\' => 10,
@@ -68,6 +73,8 @@ class ComposerStaticInit0df7744a7b22ca6acaf5cfbd5a3aeac5
         ),
         'M' => 
         array (
+            'Middlewares\\Utils\\' => 18,
+            'Middlewares\\' => 12,
             'Mezzio\\Router\\' => 14,
         ),
         'L' => 
@@ -108,6 +115,10 @@ class ComposerStaticInit0df7744a7b22ca6acaf5cfbd5a3aeac5
     );
 
     public static $prefixDirsPsr4 = array (
+        'Whoops\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
+        ),
         'Utils\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src/Utils',
@@ -168,6 +179,11 @@ class ComposerStaticInit0df7744a7b22ca6acaf5cfbd5a3aeac5
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
         ),
+        'Psr\\Http\\Server\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-server-handler/src',
+            1 => __DIR__ . '/..' . '/psr/http-server-middleware/src',
+        ),
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
@@ -220,6 +236,14 @@ class ComposerStaticInit0df7744a7b22ca6acaf5cfbd5a3aeac5
         'Pagerfanta\\' => 
         array (
             0 => __DIR__ . '/..' . '/pagerfanta/pagerfanta/lib/Core',
+        ),
+        'Middlewares\\Utils\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/middlewares/utils/src',
+        ),
+        'Middlewares\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/middlewares/whoops/src',
         ),
         'Mezzio\\Router\\' => 
         array (

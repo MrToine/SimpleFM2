@@ -27,8 +27,7 @@ class TwigTextExtension extends \Twig\Extension\AbstractExtension
      */
     public function slice(string $content, int $maxLength = 100): string
     {
-        if(is_null($content))
-        {
+        if (is_null($content)) {
             return '';
         }
 

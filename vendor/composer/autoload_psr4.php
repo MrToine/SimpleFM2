@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Utils\\' => array($baseDir . '/src/Utils'),
     'Twig\\' => array($vendorDir . '/twig/twig/src'),
     'Tests\\' => array($baseDir . '/tests'),
@@ -21,6 +22,7 @@ return array(
     'Symfony\\Component\\Config\\' => array($vendorDir . '/symfony/config'),
     'Psr\\SimpleCache\\' => array($vendorDir . '/psr/simple-cache/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
+    'Psr\\Http\\Server\\' => array($vendorDir . '/psr/http-server-handler/src', $vendorDir . '/psr/http-server-middleware/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
@@ -34,6 +36,8 @@ return array(
     'Pagerfanta\\Doctrine\\DBAL\\' => array($vendorDir . '/pagerfanta/pagerfanta/lib/Adapter/Doctrine/DBAL'),
     'Pagerfanta\\Doctrine\\Collections\\' => array($vendorDir . '/pagerfanta/pagerfanta/lib/Adapter/Doctrine/Collections'),
     'Pagerfanta\\' => array($vendorDir . '/pagerfanta/pagerfanta/lib/Core'),
+    'Middlewares\\Utils\\' => array($vendorDir . '/middlewares/utils/src'),
+    'Middlewares\\' => array($vendorDir . '/middlewares/whoops/src'),
     'Mezzio\\Router\\' => array($vendorDir . '/mezzio/mezzio-fastroute/src', $vendorDir . '/mezzio/mezzio-router/src'),
     'Laravel\\SerializableClosure\\' => array($vendorDir . '/laravel/serializable-closure/src'),
     'Laminas\\ZendFrameworkBridge\\' => array($vendorDir . '/laminas/laminas-zendframework-bridge/src'),

@@ -1,5 +1,11 @@
 <?php
 
+use Framework\Middleware\TrailingSlashMiddleware;
+use Framework\Middleware\MethodMiddleware;
+use Framework\Middleware\RouterMiddleware;
+use Framework\Middleware\DispatcherMiddleware;
+use Framework\Middleware\NotFoundMiddleware;
+
 /**
  * Index.php est le point d'entrée principal du framework.
  */
@@ -14,30 +20,21 @@ $modules = [
     App\News\NewsModule::class
 ];
 
-// Instancier un builder de conteneur d'injection de dépendances.
-$builder = new \DI\ContainerBuilder();
-
-// Ajouter les définitions principales.
-$builder->addDefinitions(dirname(__DIR__) . '/config/config.php');
-
-// Ajouter les définitions pour chaque module.
-foreach ($modules as $module) {
-    if ($module::DEFINITIONS) {
-        $builder->addDefinitions($module::DEFINITIONS);
-    }
-}
-
-// Ajouter les définitions supplémentaires.
-$builder->addDefinitions(dirname(__DIR__) . '/config.php');
-
-// Construire le conteneur d'injection de dépendances.
-$container = $builder->build();
-
 // Instancier le moteur de rendu.
-$renderer = $container->get(\Framework\Renderer\RendererInterface::class);
+//$renderer = $container->get(\Framework\Renderer\RendererInterface::class);
 
 // Instancier l'application.
-$app = new \Framework\App($container, $modules);
+$app = (new \Framework\App(dirname(__DIR__) . '/config/config.php'))
+    ->addModule(\App\Admin\AdminModule::class)
+    ->addModule(\App\News\NewsModule::class)
+    ->addModule(\App\Pages\PagesModule::class)
+    //->pipe(\Middlewares\Whoops::class)
+    ->pipe(TrailingSlashMiddleware::class)
+    ->pipe(MethodMiddleware::class)
+    ->pipe(RouterMiddleware::class)
+    ->pipe(DispatcherMiddleware::class)
+    ->pipe(NotFoundMiddleware::class) // Dois être mis tout à la fin
+    ;
 
 // Si l'application est exécutée dans un environnement autre que la ligne de commande.
 if (php_sapi_name() != 'cli') {

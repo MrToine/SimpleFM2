@@ -29,6 +29,7 @@
         "mezzio/mezzio-fastroute": "^0.3.0",
         "twig/twig": "^3.5",
         "php-di/php-di": "^7.0",
-        "pagerfanta/pagerfanta": "^3.7"
+        "pagerfanta/pagerfanta": "^3.7",
+        "middlewares/whoops": "^2.0"
     }
 }

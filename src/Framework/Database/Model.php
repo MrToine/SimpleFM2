@@ -94,12 +94,9 @@ class Model
     {
         $query = $this->pdo->query("SELECT * FROM {$this->table}");
         
-        if($this->entity)
-        {
+        if ($this->entity) {
             $query->setFetchMode(\PDO::FETCH_CLASS, $this->entity);
-        }
-        else
-        {
+        } else {
             $query->setFetchMode(\PDO::FETCH_OBJ);
         }
         
