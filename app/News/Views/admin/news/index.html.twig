@@ -16,6 +16,7 @@
         <th>Courte description</th>
         <th>Actions</th>
     </thead>
+    {% set token_input = csrf_input() %}
     {% for item in items %}
         <tr>
             <td>{{ item.id }}</td>
@@ -27,6 +28,7 @@
                 <form style="display: inline;" action="{{ path(routePrefix ~ '.delete', {id: item.id}) }}" method="post" onsubmit="return confirm('Action irréversible. Continuer ?')">
                     <input type="hidden" name="_METHOD" value="DELETE">
                     <button class="btn btn-danger"><i class="fa-solid fa-trash-can"></i></button>
+                    {{ token_input | raw }}
                 </form>
             </td>
         </tr>

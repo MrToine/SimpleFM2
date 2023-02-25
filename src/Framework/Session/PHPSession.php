@@ -2,11 +2,11 @@
 
 namespace Framework\Session;
 
-class PHPSession implements SessionInterface
+class PHPSession implements SessionInterface, \ArrayAccess
 {
 
     /**
-     * Assure que le Session est démarrer
+     * Assure que le Session est dï¿½marrer
      */
     private function ensureStared()
     {
@@ -16,7 +16,7 @@ class PHPSession implements SessionInterface
     }
 
     /**
-     * Récupère une information en session
+     * Rï¿½cupï¿½re une information en session
      * @param string $key
      * @param mixed $default
      * @return mixed
@@ -50,5 +50,39 @@ class PHPSession implements SessionInterface
     {
         $this->ensureStared();
         unset($_SESSION[$key]);
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetExists($offset): bool
+    {
+        $this->ensureStared();
+        return array_key_exists($offset, $_SESSION);
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    /**
+     * @param mixed $offset
+     * @param mixed $value
+     */
+    public function offsetSet($offset, $value): void
+    {
+        $this->set($offset, $value);
+    }
+
+    /**
+     * @param mixed $offset
+     */
+    public function offsetUnset($offset) :void
+    {
+        $this->delete($offset);
     }
 }

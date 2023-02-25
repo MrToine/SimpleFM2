@@ -1,11 +1,13 @@
 <?php
 
+use Framework\Middleware\CsrfMiddleware;
 use Framework\Renderer\RendererInterface;
 use Framework\Renderer\TwigRendererFactory;
 use Framework\Session\PHPSession;
 use Framework\Session\SessionInterface;
 use Psr\Container\ContainerInterface;
 use Utils\{
+    CsrfTwigExtension,
     TwigFlashExtension,
     TwigPagerFantaExtension,
     TwigTextExtension,
@@ -15,7 +17,7 @@ use Utils\{
 
 /**
  *
- * Fichier de configuration principal du Framework. Contiens divers informations importante à son bon fonctionnement.
+ * Fichier de configuration principal du Framework. Contiens divers informations importante ï¿½ son bon fonctionnement.
  *
  * */
 
@@ -31,8 +33,8 @@ return [
 
      /**
       * CONFIG
-      * views.path = dossiers vers les vues générique du Framework
-      * twig.extensions = liste des extensions personnalisés utilisé avec le moteur de rendu Twig
+      * views.path = dossiers vers les vues gï¿½nï¿½rique du Framework
+      * twig.extensions = liste des extensions personnalisï¿½s utilisï¿½ avec le moteur de rendu Twig
       *
       **/
 
@@ -43,6 +45,7 @@ return [
         \DI\get(TwigTextExtension::class),
         \DI\get(TwigFlashExtension::class),
         \DI\get(TwigFormExtension::class),
+        \DI\get(CsrfTwigExtension::class),
     ],
 
     /**
@@ -55,12 +58,12 @@ return [
 
     /**
      *
-     * On fait appel à la session interface et la PHPSession pour s'en servir quand on à besoin
+     * On fait appel ï¿½ la session interface et la PHPSession pour s'en servir quand on ï¿½ besoin
      *
      * */
 
     SessionInterface::class => \DI\create(PHPSession::class),
-
+    CsrfMiddleware::class => \DI\autowire()->constructorParameter('session', \DI\get(SessionInterface::class)),
 
 
     \Framework\Router::class => \DI\autowire(),

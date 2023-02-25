@@ -23,7 +23,7 @@ class Validator
     }
 
     /**
-     * Vérifie que les champs sont présent dans le tableau
+     * Vï¿½rifie que les champs sont prï¿½sent dans le tableau
      * @param string[] $keys
      * @return Validator
      */
@@ -40,7 +40,7 @@ class Validator
     }
 
     /**
-     * Vérifie que le champs n'est pas vide
+     * Vï¿½rifie que le champs n'est pas vide
      * @param string[] $keys
      * @return Validator
      */
@@ -87,7 +87,7 @@ class Validator
     }
 
     /**
-     * Vérifie que l'élément est bien un slug
+     * Vï¿½rifie que l'ï¿½lï¿½ment est bien un slug
      * @param string $key
      * @return Validator
      */
@@ -96,7 +96,8 @@ class Validator
         $value = $this->getValue($key);
         if (is_null($value)) {
             /**
-             * On récupère la valeur et si elle  est nulle, alors on retourne quand même la règle pour éviter une erreur au cas où le slug n'existe pas.
+             * On rï¿½cupï¿½re la valeur et si elle  est nulle, alors on retourne quand mï¿½me la
+             * rï¿½gle pour ï¿½viter une erreur au cas oï¿½ le slug n'existe pas.
              * */
             return $this;
         }
@@ -110,7 +111,7 @@ class Validator
     }
 
     /**
-     * Vérifie que l'élément est bien une date
+     * Vï¿½rifie que l'ï¿½lï¿½ment est bien une date
      * @param string $key
      * @return Validator
      */
@@ -127,7 +128,7 @@ class Validator
     }
 
     /**
-     * Vérifie que le formulaire soumis est valide au niveau des règles de validations
+     * Vï¿½rifie que le formulaire soumis est valide au niveau des rï¿½gles de validations
      * @return bool
      */
     public function isValid(): bool
@@ -136,7 +137,7 @@ class Validator
     }
 
     /**
-     * Récupère les erreurs
+     * Rï¿½cupï¿½re les erreurs
      * @return ValidationError[]
      */
     public function getErrors()
@@ -145,7 +146,7 @@ class Validator
     }
 
     /**
-     * Vérifie que la clef existe dans la table donnée
+     * Vï¿½rifie que la clef existe dans la table donnï¿½e
      *
      * @param string $key
      * @param string $table
@@ -175,7 +176,7 @@ class Validator
     }
 
     /**
-     * retourne la valeur d'une clé
+     * retourne la valeur d'une clï¿½
      * @param string $key
      * @return mixed
      */

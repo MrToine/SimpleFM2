@@ -9,8 +9,9 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class App
+class App implements RequestHandlerInterface
 {
     /**
      * Router
@@ -69,15 +70,17 @@ class App
         return $this;
     }
 
-    public function process(ServerRequestInterface $request): ResponseInterface
+    
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $middleware = $this->getMiddleware();
-
-        if (is_null($middleware)) {
-            throw new \Exception('Aucun middleware pour intercepter cette reqête');
+        if ($middleware === null) {
+            throw new \RuntimeException("Aucun middleware n'a intercepté cette requête");
+        } elseif (is_callable($middleware)) {
+            return call_user_func($middleware, $request, [$this, 'handle']);
+        } elseif ($middleware instanceof MiddlewareInterface) {
+            return $middleware->process($request, $this);
         }
-
-        return call_user_func_array($middleware, [$request, [$this, 'process']]);
     }
 
     /**
@@ -92,7 +95,7 @@ class App
             $this->getContainer()->get($module);
         }
 
-        return $this->process($request);
+        return $this->handle($request);
     }
 
     /**
@@ -105,7 +108,7 @@ class App
      * Retourne le container
      * @return ContainerInterface
      */
-    private function getContainer(): ContainerInterface
+    public function getContainer(): ContainerInterface
     {
         if ($this->container === null) {
             // Instancier un builder de conteneur d'injection de dépendances.
@@ -128,7 +131,7 @@ class App
         return $this->container;
     }
 
-    private function getMiddleware(): ?callable
+    private function getMiddleware()
     {
         if (array_key_exists($this->index, $this->middlewares)) {
             $middleware = $this->container->get($this->middlewares[$this->index]);
