@@ -35,7 +35,7 @@ class Router
     }
 
     /**
-     * Génère les route du CRUD
+     * Gï¿½nï¿½re les route du CRUD
      * @param string $prefixPath
      * @param mixed $callable
      * @param null|string $prefixName

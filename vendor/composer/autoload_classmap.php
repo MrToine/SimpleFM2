@@ -491,7 +491,6 @@ return array(
     'PHPUnit\\Metadata\\BackupStaticProperties' => $vendorDir . '/phpunit/phpunit/src/Metadata/BackupStaticProperties.php',
     'PHPUnit\\Metadata\\Before' => $vendorDir . '/phpunit/phpunit/src/Metadata/Before.php',
     'PHPUnit\\Metadata\\BeforeClass' => $vendorDir . '/phpunit/phpunit/src/Metadata/BeforeClass.php',
-    'PHPUnit\\Metadata\\CodeCoverageIgnore' => $vendorDir . '/phpunit/phpunit/src/Metadata/CodeCoverageIgnore.php',
     'PHPUnit\\Metadata\\Covers' => $vendorDir . '/phpunit/phpunit/src/Metadata/Covers.php',
     'PHPUnit\\Metadata\\CoversClass' => $vendorDir . '/phpunit/phpunit/src/Metadata/CoversClass.php',
     'PHPUnit\\Metadata\\CoversDefaultClass' => $vendorDir . '/phpunit/phpunit/src/Metadata/CoversDefaultClass.php',

@@ -8,21 +8,28 @@ use Psr\Container\ContainerInterface;
 class TwigRendererFactory
 {
     /**
-     * Crée une instance de TwigRenderer en utilisant le conteneur de dépendances
+     * CrÃ©e une instance de TwigRenderer en utilisant le conteneur de dÃ©pendances
      *
-     * @param ContainerInterface $container Le conteneur de dépendances
-     * @return TwigRenderer L'instance de TwigRenderer créée
+     * @param ContainerInterface $container Le conteneur de dÃ©pendances
+     * @return TwigRenderer L'instance de TwigRenderer crÃ©Ã©e
      */
     public function __invoke(ContainerInterface $container): TwigRenderer
     {
-        // Récupère le chemin des vues depuis la configuration
+        $debug = $container->get('env') !== 'production';
+
+        // RÃ©cupÄre le chemin des vues depuis la configuration
         $viewPath = $container->get('views.path');
         
-        // Crée un loader Twig pour charger les fichiers de vue à partir du chemin des vues
+        // CrÃ©e un loader Twig pour charger les fichiers de vue Å• partir du chemin des vues
         $loader = new \Twig\Loader\FilesystemLoader($viewPath);
         
-        // Crée une instance de l'environnement Twig
-        $twig = new \Twig\Environment($loader, ['debug' => true]);
+        // CrÃ©e une instance de l'environnement Twig
+        // On dÃ©fini l'environnement de debug et le dossier de cache
+        $twig = new \Twig\Environment($loader, [
+            'debug' => $debug,
+            'cache' => $debug ? false : 'tmp/views',
+            'auto_reload' => $debug
+        ]);
         $twig->addExtension(new DebugExtension());
         
         // Ajoute les extensions Twig du conteneur s'il y en a

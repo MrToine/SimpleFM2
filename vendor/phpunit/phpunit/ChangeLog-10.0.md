@@ -2,6 +2,17 @@
 
 All notable changes of the PHPUnit 10.0 release series are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [10.0.12] - 2023-02-25
+
+### Changed
+
+* Values of other types than `array` may now be passed to `assertIsList()`
+
+### Fixed
+
+* [#5234](https://github.com/sebastianbergmann/phpunit/issues/5234): Constants defined in configuration file are not defined in bootstrap file when test is run in separate process
+* [#5251](https://github.com/sebastianbergmann/phpunit/pull/5251): Junit XML logger does not properly handle errors on unprepared tests
+
 ## [10.0.11] - 2023-02-20
 
 ### Fixed
@@ -210,6 +221,7 @@ All notable changes of the PHPUnit 10.0 release series are documented in this fi
 * PHP 7.3, PHP 7.4, and PHP 8.0 are no longer supported
 * `phpunit/php-code-coverage` [no longer supports PHPDBG and Xdebug 2](https://github.com/sebastianbergmann/php-code-coverage/blob/10.0.0/ChangeLog.md#1000---2023-02-03)
 
+[10.0.12]: https://github.com/sebastianbergmann/phpunit/compare/10.0.11...10.0.12
 [10.0.11]: https://github.com/sebastianbergmann/phpunit/compare/10.0.10...10.0.11
 [10.0.10]: https://github.com/sebastianbergmann/phpunit/compare/10.0.9...10.0.10
 [10.0.9]: https://github.com/sebastianbergmann/phpunit/compare/10.0.8...10.0.9

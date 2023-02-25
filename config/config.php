@@ -22,6 +22,14 @@ use Utils\{
  * */
 
 return [
+
+    /**
+     * Défini l'environnement générale de l'application. 
+     * development = developpement
+     * production = production (indiquer par defaut)
+     */
+    'env' => \DI\env('ENV', 'production'),
+
     /**
      * DATABASE
      **/

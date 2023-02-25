@@ -7,12 +7,14 @@ use Framework\Middleware\RouterMiddleware;
 use Framework\Middleware\DispatcherMiddleware;
 use Framework\Middleware\NotFoundMiddleware;
 
+chdir(dirname(__DIR__));
+
 /**
  * Index.php est le point d'entr�e principal du framework.
  */
 
 // Inclure le fichier d'autoloading de Composer.
-require dirname(__DIR__) . '/vendor/autoload.php';
+require 'vendor/autoload.php';
 
 // Les modules ajout�s � l'application.
 $modules = [
@@ -25,7 +27,7 @@ $modules = [
 //$renderer = $container->get(\Framework\Renderer\RendererInterface::class);
 
 // Instancier l'application.
-$app = (new \Framework\App(dirname(__DIR__) . '/config/config.php'))
+$app = (new \Framework\App('config/config.php'))
     ->addModule(\App\Admin\AdminModule::class)
     ->addModule(\App\News\NewsModule::class)
     ->addModule(\App\Pages\PagesModule::class)

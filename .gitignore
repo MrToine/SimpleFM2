@@ -1,5 +1,6 @@
 .settings
 .idea
 .vs
-tests
+/tests
+/tmp
 composer.lock

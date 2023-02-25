@@ -113,7 +113,7 @@ class App implements RequestHandlerInterface
         if ($this->container === null) {
             // Instancier un builder de conteneur d'injection de dépendances.
             $builder = new ContainerBuilder();
-
+            
             // Ajouter les définitions principales.
             $builder->addDefinitions($this->definition);
 
